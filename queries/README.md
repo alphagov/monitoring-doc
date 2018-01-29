@@ -32,8 +32,9 @@ The name of the metrics can differ from one server to another.
 *Note: 4.. in the code pattern can be replaced with different numbers.*
 
 
-
-
+###### Q003
+### Average response time
+`sum(http_server_request_duration_seconds_sum) / sum(http_server_request_duration_seconds_count) * 1000`
 
 ###### Q004
 ### Slowest 5 requests (average)
