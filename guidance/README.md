@@ -5,4 +5,4 @@
 
 ## Overview
 
-This page contain guidance and best practises to start using the monitoring system in your projects.
+This page contains guidance and best practises to start using the monitoring system in your projects.
