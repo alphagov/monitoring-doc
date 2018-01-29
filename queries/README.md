@@ -29,7 +29,7 @@ The name of the metrics can differ from one server to another.
 ### HTTP status codes rate
 `sum(http_server_requests_total{code=~"4..", instance="<instance_tag>"}) / sum(http_server_requests_total{instance="<instance_tag>"})`
 
-_Note: 4.. in the code pattern can be replaced with different numbers._
+*Note: 4.. in the code pattern can be replaced with different numbers.*
 
 
 ###### Q003
