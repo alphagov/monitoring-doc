@@ -29,12 +29,10 @@ The name of the metrics can differ from one server to another.
 ### HTTP status codes rate
 `sum(http_server_requests_total{code=~"4..", instance="<instance_tag>"}) / sum(http_server_requests_total{instance="<instance_tag>"})`
 
+*Note: 4.. in the code pattern can be replaced with different numbers.*
 
 
 
-###### Q003
-### Average response time
-`sum(http_server_request_duration_seconds_sum) / sum(http_server_request_duration_seconds_count) * 1000`
 
 
 ###### Q004
