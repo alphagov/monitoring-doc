@@ -1,6 +1,5 @@
 # Query examples #
 
-
 ## Page index
 1. [Is the system running?](./#q001)
 2. [HTTP status codes rate](./#q002)
