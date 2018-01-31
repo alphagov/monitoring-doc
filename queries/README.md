@@ -9,6 +9,8 @@
 5. [More called endpoints](./#q005)
 6. [CPU used per minute group by instance](./#q006)
 7. [Request total per minute by instance](./#q007)
+8. [Used memory (MB)](./#q008)
+9. [Free memory (percentage 0-100)](./#q009)
 
 ## Overview
 
@@ -54,3 +56,11 @@ The name of the metrics can differ from one server to another.
 ###### Q007
 ### Request total per minute by instance
 `sum(rate(http_requests_total[1m])) by (instance)`
+
+###### Q008
+### Used memory (MB)
+`(node_memory_bytes_total - node_memory_free_bytes_total) / 1024 /1024`
+
+###### Q009
+### Free memory (percentage 0-100)
+`node_memory_free_bytes_total / node_memory_bytes_total * 100.0`
