@@ -3,8 +3,9 @@
 
 ## Project description
 
-This documentation pretends to give an overview of the progresses done by the GDS Reliability Engineering Team.
-This document is alive meaning that it is going to be in constant change during discovery and exploration phases. The document is going to contain documentation and resources the team consider useful to allow users to work with the monitoring tools and us to offer the best support for our users.
+This documentation gives an overview of work completed by the GDS Reliability Engineering Team.
+This is a living document and is in constant change during the discovery and exploration phases.
+This documentation will contain useful resources for teams setting up monitoring tools and for us to support them.
 
 ### Quick overview
 
