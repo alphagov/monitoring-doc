@@ -20,3 +20,5 @@ This apge is meant to provide usful external links about the use of the monitori
 10. [Prometheus for Java developers videos](https://www.youtube.com/watch?v=jb9j_IYv4cU)
 11. [Article about Time Series Databases](https://fabxc.org/tsdb/)
 12. [Article about monitorization with Prometheus](https://ordina-jworks.github.io/monitoring/2016/09/23/Monitoring-with-Prometheus.html)
+13. [Demonstration of Prometheus and Grafana in Openshift](https://www.youtube.com/watch?v=-37OPXXhrTw)
+14. [PCF Platform Monitoring with Prometheus and Grafana](https://www.youtube.com/watch?v=_WQ9DSanFdw]
