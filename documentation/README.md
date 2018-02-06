@@ -8,6 +8,8 @@
   2. [Data Model](./#data-model)
 4. [Something about Grafana](./#something-about-grafana)
 5. [Something about our solution](./#something-about-our-solution)
+6. [System parts](./system-parts)
+  1. [Discovery tool](./discovery-tool)
 
 ## Overview
 
@@ -60,4 +62,17 @@ The solution implementens a metrics monitoring platform based on Prometheus and 
 
 00x00 Diagram of the architecture and short description of the picture.
 
+### System parts
 
+#### Discovery tool
+
+Language: Ruby
+Repository: [cf_app_discovery](https://github.com/alphagov/cf_app_discovery/)
+
+Tool design for the discovery in the PaaS platform of applications configured to work with Prometheus.
+
+The tool perform a few steps to configure available targets for Prometheus.
+1. Login in the PaaS platform.
+2. Call to the `/v2/apps` PaaS endpoint to recover available apps.
+3. Filter out "STOPPED" apps and apps not configured for Prometheus.
+4. Builds the necessary target files with the custom paths to configure the apps as targets in Prometheus.
