@@ -60,7 +60,7 @@ The solution implementens a metrics monitoring platform based on Prometheus and 
 * Prometheus terraform configuration can be found [here](https://github.com/alphagov/prometheus-aws-configuration).
 * Grafana deplyment configurations can be found [here](https://github.com/alphagov/grafana-paas).
 
-00x00 Diagram of the architecture and short description of the picture.
+TODO Diagram of the architecture and short description of the picture.
 
 ### System parts
 
