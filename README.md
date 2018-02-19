@@ -20,3 +20,4 @@ The solution is based on:
 3. [Dashboard templates](./dashboard_templates)
 4. [Query examples](./queries)
 5. [Useful resources](./resources)
+6. [Exporter notes](./exporters)
