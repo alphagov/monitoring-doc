@@ -1,0 +1,90 @@
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - 9100:9100
+    networks:
+      - public
+
+  redis-server:
+    image: library/redis:4.0.8
+    ports:
+      - 6379:6379
+    networks:
+      - public
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v0.15.0
+    ports:
+      - 9121:9121
+    networks:
+      - public
+    command:
+      - '--redis.addr=redis://redis-server:6379'
+
+  ### Memcached
+  memcached-server:
+    image: library/memcached:1.5
+    ports:
+      - 11211:11211
+    networks:
+      - public
+
+  memcached-exporter:
+    image: quay.io/prometheus/memcached-exporter:v0.4.1
+    ports:
+      - 9150:9150
+    networks:
+      - public
+    command:
+      - '--memcached.address=memcached-server:11211'
+
+  ### MySQL
+  mysql-server:
+    image: library/mysql:5.6
+    ports:
+      - 3306:3306
+    networks:
+      - public
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      # allow root from docker interfaces. not just localhost
+      - 'MYSQL_ROOT_HOST=172.%.%.%'
+
+  mysql-exporter:
+    image: prom/mysqld-exporter:master
+    ports:
+      - 9104:9104
+    networks:
+      - public
+    command:
+      - '--log.level=debug'
+    environment:
+      - DATA_SOURCE_NAME=root:password@(mysql-server:3306)/mysql
+
+  ## PostgreSQL
+  postgresql-server:
+    image: library/postgres:9.6
+    ports:
+      - 5432:5432
+    networks:
+      - public
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+
+  postgresql-exporter:
+    image: wrouesnel/postgres_exporter:v0.4.1
+    ports:
+      - 9187:9187
+    networks:
+      - public
+    environment:
+      - DATA_SOURCE_NAME=postgresql://postgres:mysecretpassword@postgresql-server:5432/?sslmode=disable
