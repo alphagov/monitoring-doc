@@ -20,6 +20,7 @@ There is official exporters & non-official exporters available to you. We have c
  * Redis
  * Memcached
  * Postgresql
+ * Elasticsearch
  * MysqlD
  * MongoDB
  * RabbitMQ
