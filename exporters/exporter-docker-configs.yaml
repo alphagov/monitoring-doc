@@ -88,3 +88,16 @@
       - public
     environment:
       - DATA_SOURCE_NAME=postgresql://postgres:mysecretpassword@postgresql-server:5432/?sslmode=disable
+
+  ## Alert Manager
+  alert-manager:
+    image: prom/alertmanager:v0.14.0
+    ports:
+      - 9093:9093
+    networks:
+      - public
+
+  # view running config
+  # docker exec -ti promdocker_alert-manager_1 amtool --alertmanager.url http://127.0.0.1:9093 config
+  # view active alerts
+  # docker exec -ti promdocker_alert-manager_1 amtool --alertmanager.url http://127.0.0.1:9093 alert
