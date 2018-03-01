@@ -1,3 +1,35 @@
+version: "3"
+
+volumes:
+  grafana_lib: {}
+  prometheus_data: {}
+
+services:
+
+  ### Prometheus  Server
+  prometheus:
+    image: prom/prometheus:v2.1.0
+    ports:
+      - 9090:9090
+    volumes:
+      - prometheus_data:/prometheus
+      - ${PWD}/exporter-prometheus-configs.yaml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+
+  ### Grafana Server
+  grafana:
+    image: grafana/grafana:4.6.3
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_lib:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+
+
   node-exporter:
     image: prom/node-exporter:v0.15.2
     volumes:
@@ -9,51 +41,29 @@
       - '--path.sysfs=/host/sys'
       - --collector.filesystem.ignored-mount-points
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-    ports:
-      - 9100:9100
-    networks:
-      - public
 
+
+  ### Redis Server
   redis-server:
     image: library/redis:4.0.8
-    ports:
-      - 6379:6379
-    networks:
-      - public
 
   redis-exporter:
     image: oliver006/redis_exporter:v0.15.0
-    ports:
-      - 9121:9121
-    networks:
-      - public
     command:
       - '--redis.addr=redis://redis-server:6379'
 
   ### Memcached
   memcached-server:
     image: library/memcached:1.5
-    ports:
-      - 11211:11211
-    networks:
-      - public
 
   memcached-exporter:
     image: quay.io/prometheus/memcached-exporter:v0.4.1
-    ports:
-      - 9150:9150
-    networks:
-      - public
     command:
       - '--memcached.address=memcached-server:11211'
 
   ### MySQL
   mysql-server:
     image: library/mysql:5.6
-    ports:
-      - 3306:3306
-    networks:
-      - public
     environment:
       - MYSQL_ROOT_PASSWORD=password
       # allow root from docker interfaces. not just localhost
@@ -61,30 +71,47 @@
 
   mysql-exporter:
     image: prom/mysqld-exporter:master
-    ports:
-      - 9104:9104
-    networks:
-      - public
     command:
       - '--log.level=debug'
     environment:
       - DATA_SOURCE_NAME=root:password@(mysql-server:3306)/mysql
 
-  ## PostgreSQL
+  ### PostgreSQL
   postgresql-server:
     image: library/postgres:9.6
-    ports:
-      - 5432:5432
-    networks:
-      - public
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
 
   postgresql-exporter:
     image: wrouesnel/postgres_exporter:v0.4.1
-    ports:
-      - 9187:9187
-    networks:
-      - public
     environment:
       - DATA_SOURCE_NAME=postgresql://postgres:mysecretpassword@postgresql-server:5432/?sslmode=disable
+
+
+  ### Elasticsearch
+  elastic-server:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+
+  elastic-exporter:
+    image: justwatch/elasticsearch_exporter:1.0.2
+    command: -es.uri=http://elastic-server:9200
+
+
+  ### MongoDB
+  mongo-server:
+    image: library/mongo 
+
+  mongo-exporter:
+    image: eses/mongodb_exporter
+    command: -mongodb.uri mongodb://mongo-server:27017
+
+
+
+  ### RabbitMQ 
+  rabbitmq-server:
+    image: library/rabbitmq:3.7.3-management-alpine
+
+  rabbitmq-exporter:
+    image: kbudde/rabbitmq-exporter
+    environment:
+      RABBIT_URL: http://rabbitmq-server:15672
