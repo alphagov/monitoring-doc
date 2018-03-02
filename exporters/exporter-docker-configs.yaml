@@ -1,9 +1,5 @@
 version: "3"
 
-volumes:
-  grafana_lib: {}
-  prometheus_data: {}
-
 services:
 
   ### Prometheus  Server
@@ -12,20 +8,28 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - prometheus_data:/prometheus
       - ${PWD}/exporter-prometheus-configs.yaml:/etc/prometheus/prometheus.yml
+      - ${PWD}/alerts.rules:/etc/prometheus/alerts.rules
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
 
+
+  ### Prometheus Alert Manager
+  alert-manager:
+    image: prom/alertmanager:v0.14.0
+    ports:
+      - 9093:9093
+    volumes:
+      - ${PWD}/:/alertmanager.yaml
+    command:
+      - --config.file=/alertmanager.yaml
 
   ### Grafana Server
   grafana:
     image: grafana/grafana:4.6.3
     ports:
       - 3000:3000
-    volumes:
-      - grafana_lib:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret
 
@@ -115,3 +119,9 @@ services:
     image: kbudde/rabbitmq-exporter
     environment:
       RABBIT_URL: http://rabbitmq-server:15672
+
+
+  # view running config
+  # docker exec -ti promdocker_alert-manager_1 amtool --alertmanager.url http://127.0.0.1:9093 config
+  # view active alerts
+  # docker exec -ti promdocker_alert-manager_1 amtool --alertmanager.url http://127.0.0.1:9093 alert

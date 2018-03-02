@@ -1,0 +1,14 @@
+global:
+  # ResolveTimeout is the time after which an alert is declared resolved
+  # if it has not been updated.
+  resolve_timeout: 30m
+
+  # The default SMTP authentication information is declared here
+
+  # The API communication information is defined here 
+
+  # The default HTTP client configuration is defined here including authentication
+  # [ http_config: <http_config> ]
+
+# Files from which custom notification template definitions are read.
+# The last component may use a wildcard matcher, e.g. 'templates/*.tmpl'.

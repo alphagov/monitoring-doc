@@ -1,0 +1,15 @@
+groups:
+- name: redis-availablity
+  rules:
+  - alert: RedisBelowThreshold
+    expr: redis_up == 0
+    for: 5s
+    labels:
+      severity: "Critical" #We need to decide levels of severity 
+    annotations:
+      summary: Redis service has no availability.
+      description: "There is no service available"
+
+
+
+# mysql_up

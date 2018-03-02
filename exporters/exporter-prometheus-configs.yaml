@@ -1,6 +1,14 @@
 global:
-
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
+
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets: ['alert-manager:9093']
+
+rule_files:
+  - "/etc/prometheus/alerts.rules"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
