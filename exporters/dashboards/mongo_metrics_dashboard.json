@@ -82,7 +82,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(mongodb_op_counters_total{instance=~\"$env\"}[$interval])",
+              "expr": "rate(mongodb_mongod_op_counters_total{instance=~\"$env\"}[$interval])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -164,7 +164,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(mongodb_metrics_document_total{instance=~\"$env\"}[$interval])",
+              "expr": "rate(mongodb_mongod_metrics_document_total{instance=~\"$env\"}[$interval])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -241,7 +241,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(mongodb_metrics_query_executor_total{instance=~\"$env\"}[$interval])",
+              "expr": "rate(mongodb_mongod_metrics_query_executor_total{instance=~\"$env\"}[$interval])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -499,7 +499,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(mongodb_op_counters_repl_total{instance=~\"$env\"}[$interval])",
+              "expr": "rate(mongodb_mongod_op_counters_repl_total{instance=~\"$env\"}[$interval])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -613,7 +613,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "mongodb_instance_uptime_seconds{instance=~\"$env\"}",
+              "expr": "mongodb_mongod_instance_uptime_seconds{instance=~\"$env\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
@@ -691,7 +691,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "mongodb_connections{instance=~\"$env\",state=\"available\"}",
+              "expr": "mongodb_mongod_connections{instance=~\"$env\",state=\"available\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
@@ -769,7 +769,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "mongodb_connections{instance=~\"$env\",state=\"current\"}",
+              "expr": "mongodb_mongod_connections{instance=~\"$env\",state=\"current\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
@@ -917,7 +917,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "mongodb_memory{instance=~\"$env\",type=~\"resident|virtual\"}",
+              "expr": "mongodb_mongod_memory{instance=~\"$env\",type=~\"resident|virtual\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -996,7 +996,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(mongodb_network_bytes_total{instance=~\"$env\"}[$interval])",
+              "expr": "rate(mongodb_mongod_network_bytes_total{instance=~\"$env\"}[$interval])",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,

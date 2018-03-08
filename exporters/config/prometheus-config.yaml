@@ -7,7 +7,7 @@ alerting:
       - targets: ['alert-manager:9093']
 
 rule_files:
-  - "/etc/prometheus/alerts.rules"
+  - "/etc/prometheus/basic.http.thresholds"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
@@ -23,6 +23,12 @@ scrape_configs:
   - job_name: redis_exporter
     static_configs:
       - targets: ['redis-exporter:9121']
+
+
+  # HTTP simulator
+  - job_name: http-simulator
+    static_configs:
+      - targets: ['http-simulator:8080']
 
   # memcached exporter
   - job_name: memcached_exporter
