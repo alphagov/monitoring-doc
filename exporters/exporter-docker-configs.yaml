@@ -53,6 +53,11 @@ services:
     image: prom/blackbox-exporter
     ports:
       - 8885:9115
+    volumes:
+      - ${PWD}/config/blackbox.yaml:/etc/config/blackbox.yaml
+    command: --config.file=/etc/config/blackbox.yaml
+
+
 
   ### Redis Server
   redis-server:
