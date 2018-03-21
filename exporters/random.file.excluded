@@ -1,0 +1,71 @@
+  ### Redis Server
+  redis-server:
+    image: library/redis
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v0.15.0
+    command:
+      - '--redis.addr=redis://redis-server:6379'
+
+  ### Memcached
+  memcached-server:
+    image: library/memcached
+
+  memcached-exporter:
+    image: quay.io/prometheus/memcached-exporter:v0.4.1
+    command:
+      - '--memcached.address=memcached-server:11211'
+
+  ### MySQL
+  mysql-server:
+    image: library/mysql:5.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      # allow root from docker interfaces. not just localhost
+      - 'MYSQL_ROOT_HOST=172.%.%.%'
+
+  mysql-exporter:
+    image: prom/mysqld-exporter:master
+    command:
+      - '--log.level=debug'
+    environment:
+      - DATA_SOURCE_NAME=root:password@(mysql-server:3306)/mysql
+
+  ### PostgreSQL
+  postgresql-server:
+    image: library/postgres:9.6
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+
+  postgresql-exporter:
+    image: wrouesnel/postgres_exporter
+    environment:
+      - DATA_SOURCE_NAME=postgresql://postgres:mysecretpassword@postgresql-server:5432/?sslmode=disable
+
+  ### Elasticsearch
+  elastic-server:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+
+  elastic-exporter:
+    image: justwatch/elasticsearch_exporter
+    command: -web.telemetry-path="/metrics"
+
+
+  ### MongoDB
+  mongo-server:
+    image: library/mongo 
+
+  mongo-exporter:
+    image: eses/mongodb_exporter
+    command: -mongodb.uri mongodb://mongo-server:27017
+
+
+
+  ### RabbitMQ 
+  rabbitmq-server:
+    image: library/rabbitmq:3.7.3-management-alpine
+
+  rabbitmq-exporter:
+    image: kbudde/rabbitmq-exporter
+    environment:
+      RABBIT_URL: http://rabbitmq-server:15672
