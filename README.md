@@ -22,3 +22,4 @@ The solution is based on:
 5. [Useful resources](./resources)
 6. [Exporter notes](./exporters)
 7. [Alert Manager](./alertmanager)
+8. [Diagrams](./diagrams)
