@@ -12,6 +12,7 @@ This documentation will contain useful resources for teams setting up monitoring
 The solution is based on:
 * [Prometheus](https://prometheus.io/)
 * [Grafana](https://grafana.com/)
+* [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/)
 
 ## Index
 

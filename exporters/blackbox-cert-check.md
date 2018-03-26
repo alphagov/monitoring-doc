@@ -58,6 +58,22 @@ too.
 
 For the interactive testing I've been using [BadSSL](https://badssl.com/) to test each of the failure cases.
 
+## Example alert configurion
+
+You can be notified by prometheus of an expiring certificate based on a expression that uses the metric `probe_ssl_earliest_cert_expiry`.
+This metric gives you the expiry time for a certificate in epoch format. You can then 
+
+        - alert: SSLCertificatesExpiringIn7Days
+          expr: timestamp(probe_ssl_earliest_cert_expiry) < 604800
+          for: 1h
+          labels:
+            severity: "P3"
+            risk: "Disruption"
+          annotations:
+            summary: "SSL certificate expriring in 7 Days"
+            description: "The service {{ $labels.job }} has got SSL certificates expriring in 7 days. The URL that the certificate belongs is {{ $labels.instance }}"
+
+
 ## TODO
 
  * Add example dashboard
