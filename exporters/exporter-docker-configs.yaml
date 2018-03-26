@@ -14,6 +14,8 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention=10m'
+    depends_on:
+      - influxdb
 
 
   ### Prometheus Alert Manager
@@ -61,6 +63,16 @@ services:
     volumes:
       - ${PWD}/config/blackbox.yaml:/etc/config/blackbox.yaml
     command: --config.file=/etc/config/blackbox.yaml
+
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports:
+    - 8086:8086
+    environment:
+    - INFLUXDB_DB=prometheus
+    - INFLUXDB_USER=prometheus
+    - INFLUXDB_USER_PASSWORD=prometheus
 
 
   # view running config

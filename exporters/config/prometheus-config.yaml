@@ -10,22 +10,12 @@ rule_files:
   - "/etc/prometheus/alerts/*"
 
 
-remote_write:
-  - url: "http://192.168.200.19:9201/write"
-remote_read:
-  - url: "http://192.168.200.19:9201/read"
-
-
-
-
-
-
 # Remote write configuration (for Graphite, OpenTSDB, or InfluxDB).
-#remote_write:
-#  - url: "http://192.168.200.19:8086/api/v1/prom/write?u=paul&p=paul&db=prometheus"
+remote_write:
+  - url: "http://influxdb:8086/api/v1/prom/write?u=prometheus&p=prometheus&db=prometheus"
 # Remote read configuration (for InfluxDB only at the moment).
-#remote_read:
-#  - url: "http://192.168.200.19:8086/api/v1/prom/read?u=paul&p=paul&db=prometheus"
+remote_read:
+  - url: "http://influxdb:8086/api/v1/prom/read?u=prometheus&p=prometheus&db=prometheus"
 
 
 # A scrape configuration containing exactly one endpoint to scrape:

@@ -26,11 +26,13 @@ There is official exporters & non-official exporters available to you. We have c
  * RabbitMQ
  * Grafana
 
-Each one of these services is accompanied by the appropriate exporter that will automatically start scraping the services & import the relevant data into Prometheus. Grafana will then be available for you to explore those metrics. You can access Grafana via localhost port 3000. There is also the Prometheus dashboard that you can access via localhost:9090. 
+Each one of these services is accompanied by the appropriate exporter that will automatically start scraping the services & import the relevant data into Prometheus. Grafana will then be available for you to explore those metrics. You can access Grafana via localhost port 3000. There is also the Prometheus dashboard that you can access via localhost:9090.
+
+An instance of influxdb is also used to demonstrate long-term metrics storage of prometheus metrics.
 
 ## Bringing up the environment
 
-In order to start the environment all that is required is to run:    ``` docker-compose -f exporter-docker-configs.yaml up ``` .
+In order to start the environment all that is required is to run:    ``` docker-compose -f exporter-docker-configs.yaml up -d``` .
 This assumes that all the requirements have been satisfied. You may need sudo permissions depending on how you hVW installed docker. You can go directly to either localhost:3000 for Grafana or localhost:9090 to access the Prometheus dashboard.
 
 ## Setting up the environment
