@@ -77,6 +77,8 @@ There's a
       of effort to support "churn" of tag labels, so long as the
       number of active labels at any point is relatively small. see
       ["storing 16 bytes at scale" from promcon 2017](https://promcon.io/2017-munich/talks/storing-16-bytes-at-scale/)
+      or
+      [prometheus 2.0: new storage layer...](https://coreos.com/blog/prometheus-2.0-storage-layer-optimization)
   * tags should not include redundant informational data
 
 ### Values
