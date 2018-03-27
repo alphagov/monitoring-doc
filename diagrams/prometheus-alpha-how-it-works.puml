@@ -1,0 +1,66 @@
+@startuml
+
+skinparam dpi 300
+
+title Prometheus Alpha: How It Works
+
+== Service Discovery ==
+
+actor user as "PaaS User"
+
+box "GOV.UK PaaS" #faffff
+    participant controller as "CloudController"
+    participant app as "Application"
+    participant broker as "ServiceBroker"
+    participant grafana as "Grafana"
+end box
+
+participant google as "GoogleAuth"
+
+box "AWS" #fffffa
+    database bucket as "S3 Bucket"
+    control cron as "Cron"
+    participant config as "Config"
+    participant prometheus as "Prometheus"
+    participant proxy as "ForwardProxy"
+    database volume as "EBS Volume"
+end box
+
+user -> controller : deploy app
+controller -> app : upload files
+controller -> broker : bind service
+broker -> bucket : write target
+broker -> controller : ack "bind"
+controller -> app : environment
+app -> controller : ack "started"
+controller -> user : ack "started"
+note over cron : every 5 minutes
+cron -> bucket : read
+cron -> config : write
+prometheus -> config : reload
+
+== Scraping Metrics ==
+
+note right of prometheus : every 15 seconds
+prometheus -> proxy : instance id / auth
+proxy -> app : scrape
+rnote over app
+    handled by
+    metrics library
+endrnote
+app -> proxy : metrics
+proxy -> prometheus : metrics
+prometheus -> volume : write
+
+== Viewing Metrics ==
+
+user -> grafana : visit dashboard
+grafana -> google : authenticate
+google -> grafana : granted
+grafana -> prometheus : run queries
+prometheus -> volume : read
+volume -> prometheus : data
+prometheus -> grafana : query results
+grafana -> user : display graphs
+
+@enduml
