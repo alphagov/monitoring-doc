@@ -15,8 +15,6 @@ box "GOV.UK PaaS" #faffff
     participant grafana as "Grafana"
 end box
 
-participant google as "GoogleAuth"
-
 box "AWS" #fffffa
     database bucket as "S3 Bucket"
     control cron as "Cron"
@@ -55,8 +53,6 @@ prometheus -> volume : write
 == Viewing Metrics ==
 
 user -> grafana : visit dashboard
-grafana -> google : authenticate
-google -> grafana : granted
 grafana -> prometheus : run queries
 prometheus -> volume : read
 volume -> prometheus : data
