@@ -1,5 +1,8 @@
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  external_labels:
+    monitor: prometheus
+    replica: A
 
 alerting:
   alertmanagers:
@@ -11,11 +14,11 @@ rule_files:
 
 
 # Remote write configuration (for Graphite, OpenTSDB, or InfluxDB).
-remote_write:
-  - url: "http://influxdb:8086/api/v1/prom/write?u=prometheus&p=prometheus&db=prometheus"
+#remote_write:
+#  - url: "http://influxdb:8086/api/v1/prom/write?u=prometheus&p=prometheus&db=prometheus"
 # Remote read configuration (for InfluxDB only at the moment).
-remote_read:
-  - url: "http://influxdb:8086/api/v1/prom/read?u=prometheus&p=prometheus&db=prometheus"
+#remote_read:
+#  - url: "http://influxdb:8086/api/v1/prom/read?u=prometheus&p=prometheus&db=prometheus"
 
 
 # A scrape configuration containing exactly one endpoint to scrape:
