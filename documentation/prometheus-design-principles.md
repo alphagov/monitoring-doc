@@ -152,6 +152,14 @@ cases, such as:
       * the global prometheus may aggregate instance-level time series
         into service-level
 
+You may also limit the metrics collected at the global level to those
+which you really care about (e.g. those which form a Service Level
+Objective which impacts a Service Level Agreement you'd rather not
+break)
+
+In the event of an issue you could then debug further by querying the
+local Prometheus server with a more granular view of the system.
+
 ## Alerting
 
 A lot of Prometheus's philosophy on alerting is derived from
