@@ -8,25 +8,20 @@ services:
     image: prom/prometheus
     ports:
       - 9090:9090
-      - 10900:10900
-      - 10901:10901
-      - 10902:10902
     volumes:
       - ${PWD}/config/prometheus-config.yaml:/etc/prometheus/prometheus.yml
-      - ${PWD}/config/alerts/basic.http.thresholds:/etc/prometheus/basic.http.thresholds
-      - ${PWD}/prom_data:/opt/data/prometheus:rw
+      - ${PWD}/config/alerts/basic.http.thresholds:/etc/prometheus/alerts/basic.http.thresholds
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/opt/data/prometheus'
       - '--storage.tsdb.retention=10m'
       - --storage.tsdb.min-block-duration=3m
       - --storage.tsdb.max-block-duration=4m
-      - --web.enable-lifecycle
 
 
   ### Prometheus Alert Manager
   alert-manager:
     image: prom/alertmanager
+    container_name: alert-manager
     ports:
       - 9093:9093
     volumes:
@@ -69,65 +64,6 @@ services:
     volumes:
       - ${PWD}/config/blackbox.yaml:/etc/config/blackbox.yaml
     command: --config.file=/etc/config/blackbox.yaml
-
-  influxdb:
-    image: influxdb
-    container_name: influxdb
-    ports:
-    - 8086:8086
-    environment:
-    - INFLUXDB_DB=prometheus
-    - INFLUXDB_USER=prometheus
-    - INFLUXDB_USER_PASSWORD=prometheus
-
-  thanos:
-    image: improbable/thanos
-    container_name: thanos
-    environment:
-    - S3_ACCESS_KEY=AKIAJ7HJKLKEJU3UVHLA
-    - S3_SECRET_KEY=<<INSERT AWS SECRET KEY HERE>>
-    - S3_BUCKET=thanos-gds-test
-    - S3_ENDPOINT=s3.amazonaws.com
-    volumes:
-    - ${PWD}/prom_data:/opt/data/prometheus:rw
-    command:
-    - sidecar
-    - --prometheus.url=http://127.0.0.1:9090
-    - --cluster.peers=127.0.0.1:10900
-    - --log.level=debug
-    - --tsdb.path=/opt/data/prometheus
-    network_mode: "service:prometheus"
-    depends_on:
-    - prometheus
-
-  thanos-query:
-    image: improbable/thanos
-    container_name: thanos-query
-    command:
-    - query
-    - --cluster.peers=prometheus:10900
-    - --log.level=debug
-    - --query.replica-label=replica
-    ports:
-    - 11902:10902
-    depends_on:
-    - thanos
-
-  thanos-store:
-    image: improbable/thanos
-    container_name: thanos-store
-    environment:
-    - S3_ACCESS_KEY=AKIAJ7HJKLKEJU3UVHLA
-    - S3_SECRET_KEY=<<INSERT AWS SECRET KEY HERE>>
-    - S3_BUCKET=thanos-gds-test
-    - S3_ENDPOINT=s3.amazonaws.com
-    command:
-    - store
-    - --cluster.peers=prometheus:10900
-    - --log.level=debug
-    depends_on:
-    - thanos
-
 
   # view running config
   # docker exec -ti promdocker_alert-manager_1 amtool --alertmanager.url http://127.0.0.1:9093 config

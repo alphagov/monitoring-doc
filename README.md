@@ -22,3 +22,4 @@ The solution is based on:
 4. [Query examples](./queries)
 5. [Useful resources](./resources)
 6. [Exporter notes](./exporters)
+7. [Scalability and longevity](./scalability_longevity)

@@ -1,0 +1,85 @@
+version: "3"
+services:
+  prometheus-1:
+    container_name: prometheus-1
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ${PWD}/config/prometheus-config-influxdb-1.yaml:/etc/prometheus/prometheus.yml
+      - ${PWD}/config/alerts/basic.http.thresholds:/etc/prometheus/basic.http.thresholds
+      - ${PWD}/prom_data1:/opt/data/prometheus:rw
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/opt/data/prometheus
+      - --storage.tsdb.retention=10m
+      - --storage.tsdb.min-block-duration=3m
+      - --storage.tsdb.max-block-duration=4m
+    depends_on:
+    - influxdb
+  prometheus-2:
+    container_name: prometheus-2
+    image: prom/prometheus
+    ports:
+      - 9091:9090
+    volumes:
+      - ${PWD}/config/prometheus-config-influxdb-2.yaml:/etc/prometheus/prometheus.yml
+      - ${PWD}/config/alerts/basic.http.thresholds:/etc/prometheus/basic.http.thresholds
+      - ${PWD}/prom_data2:/opt/data/prometheus:rw
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/opt/data/prometheus
+      - --storage.tsdb.retention=10m
+      - --storage.tsdb.min-block-duration=3m
+      - --storage.tsdb.max-block-duration=4m
+    depends_on:
+    - influxdb
+  thanos-sidecar-1:
+    image: improbable/thanos
+    container_name: thanos-sidecar-1
+    volumes:
+    - ${PWD}/prom_data1:/opt/data/prometheus:rw
+    command:
+    - sidecar
+    - --prometheus.url=http://prometheus-1:9090
+    - --cluster.peers=thanos-sidecar-1:10900
+    - --cluster.peers=thanos-sidecar-2:10900
+    - --log.level=debug
+    - --tsdb.path=/opt/data/prometheus
+    depends_on:
+    - prometheus-1
+  thanos-sidecar-2:
+    image: improbable/thanos
+    container_name: thanos-sidecar-2
+    volumes:
+    - ${PWD}/prom_data2:/opt/data/prometheus:rw
+    command:
+    - sidecar
+    - --prometheus.url=http://prometheus-2:9090
+    - --cluster.peers=thanos-sidecar-1:10900
+    - --cluster.peers=thanos-sidecar-2:10900
+    - --log.level=debug
+    - --tsdb.path=/opt/data/prometheus
+    depends_on:
+    - prometheus-2
+  thanos-query:
+    image: improbable/thanos
+    container_name: thanos-query
+    command:
+    - query
+    - --cluster.peers=thanos-sidecar-1:10900
+    - --cluster.peers=thanos-sidecar-2:10900
+    - --log.level=debug
+    - --query.replica-label=replica
+    ports:
+    - 10902:10902
+    depends_on:
+    - thanos-sidecar-1
+    - thanos-sidecar-2
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    environment:
+    - INFLUXDB_DB=prometheus
+    - INFLUXDB_USER=prometheus
+    - INFLUXDB_USER_PASSWORD=prometheus

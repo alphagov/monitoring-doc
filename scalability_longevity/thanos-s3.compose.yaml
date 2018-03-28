@@ -1,0 +1,61 @@
+version: "3"
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ${PWD}/config/prometheus-config-1.yaml:/etc/prometheus/prometheus.yml
+      - ${PWD}/config/alerts/basic.http.thresholds:/etc/prometheus/basic.http.thresholds
+      - ${PWD}/prom_data1:/opt/data/prometheus:rw
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/opt/data/prometheus
+      - --storage.tsdb.retention=10m
+      - --storage.tsdb.min-block-duration=3m
+      - --storage.tsdb.max-block-duration=4m
+  thanos-sidecar:
+    image: improbable/thanos
+    container_name: thanos-sidecar
+    environment:
+    - S3_ACCESS_KEY=AKIAJ7HJKLKEJU3UVHLA
+    - S3_SECRET_KEY=<<INSERT AWS SECRET KEY HERE>>
+    - S3_BUCKET=thanos-gds-test
+    - S3_ENDPOINT=s3.amazonaws.com
+    volumes:
+    - ${PWD}/prom_data1:/opt/data/prometheus:rw
+    command:
+    - sidecar
+    - --prometheus.url=http://prometheus:9090
+    - --cluster.peers=thanos-sidecar:10900
+    - --log.level=debug
+    - --tsdb.path=/opt/data/prometheus
+    depends_on:
+    - prometheus
+  thanos-query:
+    image: improbable/thanos
+    container_name: thanos-query
+    command:
+    - query
+    - --cluster.peers=thanos-sidecar:10900
+    - --log.level=debug
+    - --query.replica-label=replica
+    ports:
+    - 10902:10902
+    depends_on:
+    - thanos-sidecar
+  thanos-store:
+    image: improbable/thanos
+    container_name: thanos-store
+    environment:
+    - S3_ACCESS_KEY=AKIAJ7HJKLKEJU3UVHLA
+    - S3_SECRET_KEY=<<INSERT AWS SECRET KEY HERE>>
+    - S3_BUCKET=thanos-gds-test
+    - S3_ENDPOINT=s3.amazonaws.com
+    command:
+    - store
+    - --cluster.peers=thanos-sidecar:10900
+    - --log.level=debug
+    depends_on:
+    - thanos-sidecar

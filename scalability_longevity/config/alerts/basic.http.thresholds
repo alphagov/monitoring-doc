@@ -1,0 +1,30 @@
+groups:
+- name: HTTP-SVC-THRESHOLD
+  rules:
+  - alert: InstanceCountBelowAcceptableThreshold
+    expr: up >= 10
+    for: 30s
+    labels:
+      severity: "P1"
+    annotations:
+      summary: "Service  has only one funcationing instance"
+      description: "The service {{ $labels.job }} has less than one healthy instance."
+
+  - alert: 4xxAboveAcceptableThreshold
+    expr: http_server_requests_total{code=~"4.."} >= 10 
+    for: 3m
+    labels:
+      severity: "P2"
+    annotations:
+      summary: "The number of 4xx http status codes"
+      description: "The service {{ $labels.job }} on instance {{ $labels.instance }} is experiencing a high number of HTTP 400's error codes . The code displayed is {{ $labels.code }}"
+
+  - alert: 5xxDetected
+    expr: rate(http_requests_total{job="http-simulator", status=~"5.."}[1m]) >= 1 #the unit is %
+    for: 2m
+    labels:
+      severity: "P1"
+    annotations:
+      summary: "The number of 5xx http status codes"
+      description: "The service {{ $labels.job }} on instance {{ $labels.instance }} is experiencing a high number of HTTP 500's error codes . The HTTP status code is  {{ $labels.code }}"
+
