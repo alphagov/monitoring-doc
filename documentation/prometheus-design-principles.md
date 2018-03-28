@@ -123,7 +123,9 @@ https://www.robustperception.io/scaling-and-federating-prometheus/
 ### There should normally be a single alertmanager for an organization ###
 
 It seems that there should normally be a single alertmanager for an
-organization.  The best reference I've found for this is from
+organization, rather than having separate alertmanagers with different
+configurations for each team or programme or division.  The best
+reference I've found for this is from
 [Julius Volz's Prometheus Design and Philosophy talk (7:44)](https://youtu.be/QgJbxCWRZ1s?t=7m43s)
 which doesn't go into much detail as to *why* you'd do this.
 
