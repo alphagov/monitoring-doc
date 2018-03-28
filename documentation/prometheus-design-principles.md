@@ -21,12 +21,6 @@ are some:
 
 Prometheus is a tool for collecting time-series data.
 
-  * prometheus is not designed for long-term archival
-      * though in practice, prometheis with a history of a year or
-        more can and do exist
-      * it's also not designed to be sure you've captured every data
-        point
-
 ## What Prometheus doesn't do
 
 [Julius Volz listed some things Prometheus doesn't do](https://youtu.be/QgJbxCWRZ1s?t=9m28s):
