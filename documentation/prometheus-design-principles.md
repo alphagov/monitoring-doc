@@ -19,7 +19,10 @@ are some:
 
 ## What Prometheus does
 
-Prometheus is a tool for collecting time-series data.
+Prometheus is a tool for collecting time-series data.  These
+time-series can be queried using PromQL, a custom query language for
+time-series data. PromQL queries can be used as a basis for monitoring
+systems through dashboards and alerting.
 
 ## What Prometheus doesn't do
 
