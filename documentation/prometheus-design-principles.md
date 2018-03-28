@@ -51,6 +51,10 @@ Prometheus is a pull-based system.
   * simpler HA - just deploy a copy (alertmanager deduplicates alerts)
   * less configuration - instances don't need to know where monitoring
     lives
+  * the monitoring system is in control of when it ingests new metrics
+    by setting a scraping interval.  This avoids issues where a
+    misbehaving client emits so many metrics they negatively impact
+    other users of the monitoring system.
 
 The
 [prometheus docs also say](https://prometheus.io/docs/introduction/faq/#why-do-you-pull-rather-than-push?):
