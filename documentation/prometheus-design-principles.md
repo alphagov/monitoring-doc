@@ -153,8 +153,8 @@ cases, such as:
 
   * have a global, coarse-grain view of the system
       * the global prometheus may have a coarser scrape resolution
-      * the global prometheus may aggregate instance-level time series
-        into service-level
+      * the global prometheus
+        [may aggregate instance-level time series into service-level](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)
 
 You may also limit the metrics collected at the global level to those
 which you really care about (e.g. those which form a Service Level
