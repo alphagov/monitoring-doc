@@ -6,7 +6,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ${PWD}/config/prometheus-config-influxdb-1.yaml:/etc/prometheus/prometheus.yml
+      - ${PWD}/config/prometheus-config-influxdb.yaml:/etc/prometheus/prometheus.yml
       - ${PWD}/config/alerts/basic.http.thresholds:/etc/prometheus/basic.http.thresholds
       - ${PWD}/prom_data1:/opt/data/prometheus:rw
     command:
@@ -23,7 +23,7 @@ services:
     ports:
       - 9091:9090
     volumes:
-      - ${PWD}/config/prometheus-config-influxdb-2.yaml:/etc/prometheus/prometheus.yml
+      - ${PWD}/config/prometheus-config-influxdb.yaml:/etc/prometheus/prometheus.yml
       - ${PWD}/config/alerts/basic.http.thresholds:/etc/prometheus/basic.http.thresholds
       - ${PWD}/prom_data2:/opt/data/prometheus:rw
     command:

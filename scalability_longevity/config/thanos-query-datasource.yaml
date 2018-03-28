@@ -1,0 +1,6 @@
+apiVersion: 1
+datasources:
+- name: thanos-query
+  type: prometheus
+  access: direct
+  url: http://localhost:10902
