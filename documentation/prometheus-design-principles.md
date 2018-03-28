@@ -140,6 +140,10 @@ view prometheus metrics and dashboards).
 Mostly, you control access to prometheus at the network level; there
 is no support for authentication within prometheus.
 
+You should be careful before enabling the `honor_labels` or
+`--web.enable-admin-api` options, because both put extra trust in
+scraped targets or untrusted users.
+
 ## Federation
 
 Prometheus supports federation: a prometheus server can scrape the
