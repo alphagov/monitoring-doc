@@ -151,11 +151,23 @@ cases, such as:
       * the global prometheus may aggregate instance-level time series
         into service-level
 
-## Alerting on symptoms, not causes
+## Alerting
+
+A lot of Prometheus's philosophy on alerting is derived from
+[Rob Ewaschuk's philosophy on alerting](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit#)
+which, after an editing process, became
+[chapter 6 of the SRE book](https://landing.google.com/sre/book/chapters/monitoring-distributed-systems.html).
+
+### Alert on symptoms, not causes
 
 As mentioned above, Prometheus only deals with aggregated numerical
 data, not raw event data.  Prometheus data is used to trigger alerts,
-based on symptoms ("the system is broken") rather than causes.
+based on symptoms ("the system is broken") rather than causes.  From
+Rob Ewaschuk's philosophy, he has a section
+[cause-based alerts are bad (but sometimes necessary)](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit#heading=h.6ammb5h32uqq).
+
+### Access to context
+
 However, people responding to the alert may well need access to raw
 event data such as logs or exceptions to understand the underlying
 causes in order to resolve the alert.
