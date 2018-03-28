@@ -71,15 +71,15 @@ There's a
 
 ### Names
 
-  * tags should not have too high a cardinality
+  * labels should not have too high a cardinality
       * See the CAUTION here: https://prometheus.io/docs/practices/naming/#labels
       * it seems that prometheus 2.0's new storage engine took a lot
-      of effort to support "churn" of tag labels, so long as the
-      number of active labels at any point is relatively small. see
+      of effort to support "churn" of labels, so long as the number of
+      active labels at any point is relatively small. see
       ["storing 16 bytes at scale" from promcon 2017](https://promcon.io/2017-munich/talks/storing-16-bytes-at-scale/)
       or
       [prometheus 2.0: new storage layer...](https://coreos.com/blog/prometheus-2.0-storage-layer-optimization)
-  * tags should not include redundant informational data
+  * labels should not include redundant informational data
 
 ### Values
 
