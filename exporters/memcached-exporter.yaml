@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  ### Memcached
+  memcached-server:
+    image: library/memcached
+
+  memcached-exporter:
+    image: quay.io/prometheus/memcached-exporter:v0.4.1
+    command:
+      - '--memcached.address=memcached-server:11211'

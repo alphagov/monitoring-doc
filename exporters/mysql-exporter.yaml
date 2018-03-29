@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  ### MySQL
+  mysql-server:
+    image: library/mysql:5.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      # allow root from docker interfaces. not just localhost
+      - 'MYSQL_ROOT_HOST=172.%.%.%'
+
+  mysql-exporter:
+    image: prom/mysqld-exporter:master
+    command:
+      - '--log.level=debug'
+    environment:
+      - DATA_SOURCE_NAME=root:password@(mysql-server:3306)/mysql

@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  ### Redis Server
+  redis-server:
+    image: library/redis
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v0.15.0
+    command:
+      - '--redis.addr=redis://redis-server:6379'

@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  ### RabbitMQ 
+  rabbitmq-server:
+    image: library/rabbitmq:3.7.3-management-alpine
+
+  rabbitmq-exporter:
+    image: kbudde/rabbitmq-exporter
+    environment:
+      RABBIT_URL: http://rabbitmq-server:15672

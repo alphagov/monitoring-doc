@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  ### Elasticsearch
+  elastic-server:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+
+  elastic-exporter:
+    image: justwatch/elasticsearch_exporter
+    command: -web.telemetry-path="/metrics"

@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  ### MongoDB
+  mongo-server:
+    image: library/mongo 
+
+  mongo-exporter:
+    image: eses/mongodb_exporter
+    command: -mongodb.uri mongodb://mongo-server:27017

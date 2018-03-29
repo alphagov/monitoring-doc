@@ -74,8 +74,5 @@ This metric gives you the expiry time for a certificate in epoch format. You can
             description: "The service {{ $labels.job }} has got SSL certificates expriring in 7 days. The URL that the certificate belongs is {{ $labels.instance }}"
 
 
-## TODO
+Through this alert, you can see how the alerts are configured for certificate expiration. We have to adjust the expression according to the time the notification should be triggered. The metric returns the time value of the expression as an epoch value. When you write the condition you have to take this into consideration.
 
- * Add example dashboard
- * Add example alert config
- * Decide if we want a simple, custom, valid cert exporter.

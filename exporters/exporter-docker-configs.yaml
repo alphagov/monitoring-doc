@@ -53,14 +53,9 @@ services:
 
   http-simulator:
     image: pierrevincent/prom-http-simulator
-    ports:
-      - 8884:8080
-
 
   blackbox-exporter:
     image: prom/blackbox-exporter
-    ports:
-      - 8885:9115
     volumes:
       - ${PWD}/config/blackbox.yaml:/etc/config/blackbox.yaml
     command: --config.file=/etc/config/blackbox.yaml
