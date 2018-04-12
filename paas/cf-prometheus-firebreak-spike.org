@@ -1,0 +1,28 @@
+<2018-04-10 Tue>
+* Prometheus for monitoring PaaS
+** Deploying Prometheus from the existing Bosh release
+   https://github.com/bosh-prometheus/prometheus-boshrelease
+   Has lots of contributions from 18F
+** Deploys multi AZ alertmanager
+   Alertmanager runs in 3 AZ's, how does that fit with our plans on offering
+   alertmanager to teams around GDS
+** Standard manifest, some operations files for overrides
+** Everything from the firehose 
+   I think this means it gets the same set of metrics that the datadog nozzle did?
+** Everything from the nodes (node_exporter)
+** Grafana on EC2 with a lot of community created dashboards
+   These dashboards looked really good, could we learn from them?
+** Dashboards for app metrics.
+   The Prom bosh release must be doing something similar to our
+   paas-metric-exporter extensions to transform metrics from the firehose into
+   Prometheus metrics. We could look into this to see if we could follow their
+   metric naming conventions
+** KPI dashboards on platform health
+   Sounded like this is similar to the dashboard they currently use for platform
+   health with datadog
+** Postgres exporter looking at the Grafana database
+   Showing off the metrics Prometheus can collect from postgres as tenants want
+   this too
+** Steps to adopt Prometheus
+ 1. Standing up a read-only report server so Prometheus doesn't impact on users of the platform
+ 2. Waiting on RE saying Prom is the thing for rest of GDS
