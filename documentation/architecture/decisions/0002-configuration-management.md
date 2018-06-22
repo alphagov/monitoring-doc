@@ -4,7 +4,11 @@ Date: 2018-04-18
 
 ## Status
 
-Pending
+No longer relevant.
+
+This decision related to the alpha code (in
+alphagov/prometheus-aws-configuration), which is no longer being
+actively developed.
 
 ## Context
 
