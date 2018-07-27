@@ -50,8 +50,22 @@ different AWS accounts.
 
 This means that we could build Prometheus in an account we own, and it
 could access client team infrastructure over the peering connection.
+It also provides the option for us having a single prometheus scraping
+multiple VPCs (via multiple peering connections).
 
 [VPC Peering]: https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/Welcome.html
+
+While VPC peering would be a neat fit in this specific situation, we
+have some concerns about it:
+
+ - as RE builds more services that might be provided to client teams,
+   and as we extend these services to more client teams, we end up
+   with N*M VPC peering connections to maintain
+ - the client teams' security analysis becomes much harder when they
+   peer to an external black-box VPC
+ - if we have a single VPC connecting to multiple client VPCs, that
+   provides an indirect link between VPCs which the client had wanted
+   to keep separate
 
 ## Decision
 
