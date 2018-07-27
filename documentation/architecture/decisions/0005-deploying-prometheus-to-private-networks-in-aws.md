@@ -33,6 +33,8 @@ allows us to scrape private endpoints:
    ourselves
  - we build in our own infrastructure and use VPC peering to access
    client team's private networks
+ - we build in our own infrastructure and use VPC Endpoint Services as
+   a way to get prometheus to access client team's private networks
 
 ### Provide an artefact to be deployed by the client team
 
@@ -60,6 +62,29 @@ without giving us more capability than they feel comfortable with.
 The client team would have visibility over what we had built, and
 would be able to see it in their own AWS console.  However, they would
 likely not have ssh access to the instance itself.
+
+One possible issue with this model is that we're beholden on the
+client to provide us with a CIDR range to deploy onto, and depending
+on their existing estate, private IPs may be in short supply.
+
+You're also dependent on their networking arrangements.  You will need
+to ask questions like:
+
+ - how can you get in and out of the network?
+ - do you need to download packages to install?  how will that work?
+ - do you need to download security updates?  how will that work?
+
+The answers to these questions may be different for different client
+teams.  This means that our prometheus pattern needs to be flexible
+enough to cope with these differences, which will take extra
+engineering effort.
+
+We would need to work out what the integration point between our teams
+would be.  This could be:
+
+ - terraform outputs that appear in a remote state file
+   - or stereotyped resource names/tags which can be matched using
+     data sources
 
 ### Use VPC Peering to provide access for prometheus to scrape target infrastructure
 
@@ -123,7 +148,41 @@ This avoids some of the drawbacks of the previous case, in that the
 prometheus doesn't have privileges to access multiple separate VPCs.
 
 [VPC Peering]: https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/Welcome.html
-   
+
+### Use VPC Endpoint Services to access scrape targets
+
+This is a similar idea to VPC Peering.  [VPC Endpoint Services][] (aka
+AWS PrivateLink) provides a way to provide services to a VPC, again
+potentially in another account.
+
+This allows you to make a single Network Load Balancer (NLB) appear
+directly available (ie without going through a NAT Gateway) in another
+VPC.
+
+In the case of Prometheus, because it has a pull model, it seems
+likely that the only way we could make this work would be by having
+the client team provide the endpoint service and prometheus consume
+it.  This would mean the client team would need to add a routing layer
+(possibly path- or vhost-based routing, possibly using an ALB) to
+distribute scrape requests to individual scrape targets.
+
+This has the following advantages:
+
+ - the IP address spaces in the prometheus VPC and the client team VPC
+   are completely independent
+
+However it has some drawbacks:
+
+ - it feels like we're not using Endpoint Services in a designed use
+   case. in other words, it feels like a bit of a hack.
+ - Prometheus is designed to be close to its targets, so that there
+   are fewer things to go wrong and prevent scraping.  The more layers
+   of routing between prometheus and its scrape targets, the more
+   change we'll lose metrics during an outage, exactly when we need
+   them.
+
+[VPC Endpoint Services]: https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/endpoint-service.html
+
 ## Decision
 
 ## Consequences
