@@ -178,7 +178,7 @@ However it has some drawbacks:
  - Prometheus is designed to be close to its targets, so that there
    are fewer things to go wrong and prevent scraping.  The more layers
    of routing between prometheus and its scrape targets, the more
-   change we'll lose metrics during an outage, exactly when we need
+   chance we'll lose metrics during an outage, exactly when we need
    them.
 
 [VPC Endpoint Services]: https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/endpoint-service.html
