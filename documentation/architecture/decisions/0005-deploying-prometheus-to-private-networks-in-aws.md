@@ -8,29 +8,53 @@ Draft
 
 ## Context
 
-We are looking to deploy prometheus into private networks alongside
-existing infrastructure.  The existing infrastructure will be run by
-another team (called "client team" in this document), but our
-prometheus will be responsible for gathering metrics from it.
+We are looking to offer prometheus to non-PaaS teams.  The existing
+infrastructure will be run by another team (called "client team" in
+this document), but we will provide one or more prometheus servers
+which will will be responsible for gathering metrics from the
+underlying infrastructure.
 
-Longer term, we imagine that we will have several prometheis, living
-in multiple environments across multiple programmes.
+Longer term, we are aiming to provide prometheus as a service to
+multiple environments across multiple programmes.
 
-Some of the things we would like to be able to do are:
+### Non-suitability of existing infrastructure
 
- - access metrics endpoints within private networks, which are not
-   generally accessible from outside those networks
+Our existing prometheus infrastructure (for PaaS teams) works by using
+our [service broker][] to generate file_sd_configs which prometheus
+then uses to scrape PaaS apps over the public internet.
+
+This approach won't work for non-PaaS teams, because it's based on an
+assumption – that every app is directly routable from the public
+internet – that doesn't hold in non-PaaS environments.  Instead, apps
+live on private networks and public access is controlled by firewalls
+and load balancers.
+
+[service broker]: https://github.com/alphagov/cf_app_discovery
+
+### Main problem to be solved: scraping apps on private networks
+
+As the previous section explained, our main problem is that we want a
+prometheus (provided by us) to be able to scrape apps and other
+endpoints (owned by the client team, and living on a private network).
+We want to do this in a way which doesn't require clients to
+unnecessarily expose metrics endpoints to the public internet.
+
+Some other things we would like to be able to do are:
+
  - maintain prometheus at a single common version, by upgrading
    prometheus across our whole estate
  - update prometheus configuration without having to rebuild instances
- - allow client teams to provide configuration (say, for alert rules)
+ - allow client teams to provide configuration (for example, for alert
+   rules)
+ - perform [ec2 service discovery][] by querying the EC2 API (for
+   which we need permissions to read client account EC2 resources)
  
 There are several ways we might provide a prometheus pattern that
 allows us to scrape private endpoints:
 
  - provide an artefact to be deployed by the client team
  - client team provides IAM access to us and we deploy prometheus
-   ourselves
+   ourselves, within their VPC
  - we build in our own infrastructure and use VPC peering to access
    client team's private networks
  - we build in our own infrastructure and use VPC Endpoint Services as
