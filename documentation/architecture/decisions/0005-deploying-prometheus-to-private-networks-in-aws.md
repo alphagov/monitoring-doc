@@ -36,6 +36,8 @@ allows us to scrape private endpoints:
  - we build in our own infrastructure and use VPC Endpoint Services as
    a way to get prometheus to access client team's private networks
 
+[ec2 service discovery]: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#%3Cec2_sd_config%3E
+
 ### Provide an artefact to be deployed by the client team
 
 The artefact we provide could take several forms:
@@ -85,6 +87,10 @@ would be.  This could be:
  - terraform outputs that appear in a remote state file
    - or stereotyped resource names/tags which can be matched using
      data sources
+
+Whether or not we go with this option for deploying prometheus, if we
+want to do ec2 service discovery (described above), prometheus will
+need some sort of IAM access into the client team account anyway.
 
 ### Use VPC Peering to provide access for prometheus to scrape target infrastructure
 
