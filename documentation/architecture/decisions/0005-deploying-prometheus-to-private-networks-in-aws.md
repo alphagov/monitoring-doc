@@ -8,11 +8,11 @@ Draft
 
 ## Context
 
-We are looking to offer prometheus to non-PaaS teams.  The existing
-infrastructure will be run by another team (called "client team" in
-this document), but we will provide one or more prometheus servers
-which will will be responsible for gathering metrics from the
-underlying infrastructure.
+We are looking to offer prometheus to non-PaaS teams.  The
+infrastructure to be monitored will be run by another team (called
+"client team" in this document), but we will provide one or more
+prometheus servers which will will be responsible for gathering
+metrics from the underlying infrastructure.
 
 Longer term, we are aiming to provide prometheus as a service to
 multiple environments across multiple programmes.
