@@ -43,7 +43,8 @@ Some other things we would like to be able to do are:
 
  - maintain prometheus at a single common version, by upgrading
    prometheus across our whole estate
- - update prometheus configuration without having to rebuild instances
+ - update prometheus configuration without having to restart
+   prometheus
  - allow client teams to provide configuration (for example, for alert
    rules)
  - perform [ec2 service discovery][] by querying the EC2 API (for
