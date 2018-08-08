@@ -1,0 +1,24 @@
+# 4. Give users access to Prometheus and Alertmanager
+
+Date: 2018-08-08
+
+## Status
+
+Pending.
+
+## Context
+
+Our users need an easier way to write alerts, they currently have no
+easy way to test queries before writing alerts. Our Prometheus
+service requires authentication which locks our user out of it.
+
+## Decision
+
+We will give our users access to Prometheus so they can use its
+expression browser to test queries when writing alerts. We will
+do this by using IP Whitelisting instead of authentication and
+only allowing our office IP addresses.
+
+## Consequences
+
+Anyone in the office can access Prometheus and Alertmanager.
