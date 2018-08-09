@@ -1,4 +1,4 @@
-# 4. Give users access to Prometheus and Alertmanager
+# 5. Give users access to Prometheus and Alertmanager
 
 Date: 2018-08-08
 
@@ -19,6 +19,23 @@ expression browser to test queries when writing alerts. We will
 do this by using IP Whitelisting instead of authentication and
 only allowing our office IP addresses.
 
+We identified that the user needs to be authentication to platform
+in order to learn behaviors of different team's and know who is
+performing what action. There was a number of different routes that
+we could have taken to achieve this. One possible route that we
+considered was using Oauth2 authentication. This would of enabled users
+to authenticate themselves to the platform via there google credentials.
+
+We did not choose to go with this option this time since it was not a major
+requirement. The idea behind this was to try to delivar the fastes value as
+possible to the user. This method enables us to learn more about the user's
+usage pattern. We do intend to add authentication but this will be done at
+a later date.
+
 ## Consequences
 
-Anyone in the office can access Prometheus and Alertmanager.
+Anyone in the office can access Prometheus and Alertmanager. This means that
+they can use expression browser in order to dynamically test and create quires
+with fast feedback loop. We are not able to track our user which has some minor
+negative consequences.
+
