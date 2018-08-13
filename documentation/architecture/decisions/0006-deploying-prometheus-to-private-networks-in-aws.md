@@ -1,4 +1,4 @@
-# 1. Model for deploying prometheus to private networks in AWS
+# 6. Model for deploying prometheus to private networks in AWS
 
 Date: 2018-07-26
 
