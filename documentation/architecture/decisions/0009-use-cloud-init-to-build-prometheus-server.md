@@ -1,4 +1,4 @@
-# 8. Use Cloud Init to build Prometheus Server
+# 9. Use Cloud Init to build Prometheus Server
 
 Date: 2018-08-15
 

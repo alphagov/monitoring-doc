@@ -1,4 +1,4 @@
-# 6. Use Ubuntu 18.04
+# 7. Use Ubuntu 18.04
 
 Date: 2018-08-15
 

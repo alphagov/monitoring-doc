@@ -1,4 +1,4 @@
-# 7. Use of Verify Egress Proxies
+# 8. Use of Verify Egress Proxies
 
 Date: 2018-08-15
 

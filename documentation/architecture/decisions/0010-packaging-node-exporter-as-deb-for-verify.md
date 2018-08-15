@@ -1,4 +1,4 @@
-# 9. Packaging Node Exporter as .deb for Verify
+# 10. Packaging Node Exporter as .deb for Verify
 
 Date: 2018-08-15
 
