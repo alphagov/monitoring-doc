@@ -216,6 +216,12 @@ However it has some drawbacks:
 
 ## Decision
 
+- Deploy Prometheus into Verify Performance Environment to test concept
+- Deploy an instance of Prometheus into the client teams VPC
+- Use Ubuntu 18.04 as the distribution for the instance [ADR-7](0007-use-ubuntu-18-04.md)
+- Use Cloud Init to configure Prometheus [ADR-9](0009-use-cloud-init-to-build-prometheus-server.md)
+- Use Verify infrastructure initially for the PoC [ADR-8](0008-use-of-egress-proxies.md)[ADR-10](0010-packaging-node-exporter-as-deb-for-verify.md)
+
 ## Consequences
 
 We haven't yet solved the problem of how client teams provide alert
