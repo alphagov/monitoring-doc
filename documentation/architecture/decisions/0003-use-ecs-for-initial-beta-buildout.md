@@ -7,7 +7,10 @@ after the decision was made)
 
 ## Status
 
-Accepted.
+Superseded.
+
+We have now migrated prometheus off ECS and on to EC2.  The rest is
+covered in ADR #12.
 
 ## Context
 
