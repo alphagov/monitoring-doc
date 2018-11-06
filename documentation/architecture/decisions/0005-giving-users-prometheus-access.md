@@ -4,7 +4,7 @@ Date: 2018-08-08
 
 ## Status
 
-Pending.
+Accepted.
 
 ## Context
 
